@@ -1,32 +1,33 @@
-Package: ukcovid19
-Title: UK Coronavirus Data 'API'
-Version: 1.2.0
-Date: 2020-08-19
+Package: UKHSAdash
+Title: UKHSA Dashboard 'API'
+Version: 0.1
+Date: Sys.Date()
 Authors@R: person(
-        given = "Pouria",
-        family = "Hadjibagheri",
+        given = "Ollie",
+        family = "Lloyd",
         role = c("aut", "cre"),
-        email = "Pouria.Hadjibagheri@phe.gov.uk",
-        comment = c(ORCID = "0000-0003-2739-4161")
+        email = "o.lloyd@doctors.org.uk",
+        comment = c(ORCID = "0000")
     )
-Author: Pouria Hadjibagheri [aut, cre]
-Maintainer: Pouria Hadjibagheri <Pouria.Hadjibagheri@phe.gov.uk>
-Description: This is an R Software Programming Kit (SDK) for the 'COVID-19' 'API' (Application Programming Interface), as 
-    published by Public Health England (PHE) on Coronavirus ('COVID-19') in the UK dashboard service. 'API' documentations 
-    are available on the official website on '<https://coronavirus.data.gov.uk/developers-guide>'.
+Author: Ollie Lloyd [aut, cre,]
+Maintainer: Ollie Lloyd <o.lloyd@doctors.org.uk>
+Description: Interactively access data from the the UKHSA dashboard. It wraps the UKHSA data dashboard API. Futher information
+        on the API is available at '<https://ukhsa-dashboard.data.gov.uk/access-our-data>'.
 License: MIT + file LICENSE
-Copyright: Public Health England
+Copyright: Crown Copyright
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.1.1
+RoxygenNote: 7.3.1
 Suggests: 
     testthat,
     knitr,
     rmarkdown
 Imports:
-    httr,
-    jsonlite
+    httr2,
+    tibble,
+    tidyr,
+    purrr,
+    stringr
 VignetteBuilder: knitr
-URL: https://coronavirus.data.gov.uk/developers-guide, https://github.com/publichealthengland/coronavirus-dashboard-api-r-sdk/
-BugReports: https://github.com/publichealthengland/coronavirus-dashboard-api-r-sdk/issues
+URL: https://ukhsa-dashboard.data.gov.uk/access-our-data

@@ -1,4 +1,4 @@
 library(testthat)
-library(ukcovid19)
+library(UKHSAdash)
 
-test_check("ukcovid19")
+test_check("UKHSAdash")
