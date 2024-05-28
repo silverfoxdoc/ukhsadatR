@@ -1,7 +1,7 @@
 Package: UKHSAdash
 Title: UKHSA Dashboard 'API'
 Version: 0.1
-Date: Sys.Date()
+Date: 2024-05-27
 Authors@R: person(
         given = "Ollie",
         family = "Lloyd",
@@ -12,7 +12,8 @@ Authors@R: person(
 Author: Ollie Lloyd [aut, cre,]
 Maintainer: Ollie Lloyd <o.lloyd@doctors.org.uk>
 Description: Interactively access data from the the UKHSA dashboard. It wraps the UKHSA data dashboard API. Futher information
-        on the API is available at '<https://ukhsa-dashboard.data.gov.uk/access-our-data>'.
+        on the API is available at '<https://ukhsa-dashboard.data.gov.uk/access-our-data>'. Based on `ukcovid19` package, see 
+        '<https://github.com/UKHSA-Internal/coronavirus-dashboard-api-R-sdk>'.
 License: MIT + file LICENSE
 Copyright: Crown Copyright
 Encoding: UTF-8
@@ -25,9 +26,6 @@ Suggests:
     rmarkdown
 Imports:
     httr2,
-    tibble,
-    tidyr,
-    purrr,
-    stringr
+    jsonlite
 VignetteBuilder: knitr
 URL: https://ukhsa-dashboard.data.gov.uk/access-our-data
