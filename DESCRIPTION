@@ -1,17 +1,17 @@
-Package: UKHSAdash
-Title: UKHSA Dashboard 'API'
+Package: UKHSAdashR
+Title: UKHSA Dashboard API Wrappepr
 Version: 0.1
-Date: 2024-05-27
+Date: 2024-07-21
 Authors@R: person(
         given = "Ollie",
         family = "Lloyd",
         role = c("aut", "cre"),
         email = "o.lloyd@doctors.org.uk",
-        comment = c(ORCID = "0000")
+        comment = c(ORCID = "0000-0002-9385-1634"))
     )
 Author: Ollie Lloyd [aut, cre,]
 Maintainer: Ollie Lloyd <o.lloyd@doctors.org.uk>
-Description: Interactively access data from the the UKHSA dashboard. It wraps the UKHSA data dashboard API. Futher information
+Description: `R` wrapper to interactively access data from the UKHSA data dashboard. Futher information
         on the API is available at '<https://ukhsa-dashboard.data.gov.uk/access-our-data>'. Based on `ukcovid19` package, see 
         '<https://github.com/UKHSA-Internal/coronavirus-dashboard-api-R-sdk>'.
 License: MIT + file LICENSE
@@ -19,7 +19,7 @@ Copyright: Crown Copyright
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.1
+RoxygenNote: 7.3.2
 Suggests: 
     testthat,
     knitr,
