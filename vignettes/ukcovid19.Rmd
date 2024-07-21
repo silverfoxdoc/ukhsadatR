@@ -1,5 +1,5 @@
 ---
-title: "UKHSAdash"
+title: "UKHSAdashR"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{UKHSAdash}
@@ -15,6 +15,6 @@ knitr::opts_chunk$set(
 ```
 
 ```{r setup}
-library(UKHSAdash)
+library(UKHSAdashR)
 ```
 

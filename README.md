@@ -12,12 +12,12 @@ This package based upon the `ukcovid19` package previously published by Public H
 At present this package is only available on github and can be installed as follows:
 
 ``` r
-remotes::install_github("silverfoxdoc/coronavirus-dashboard-api-R-sdk")
+remotes::install_github("silverfoxdoc/UKHSAdashR")
 ```
 
 ## Pagination
 
-This API wrapper will bypass the pagination process and always download the full dataset for the specified topic, however only a single metric can be downloaded at a time.
+This API wrapper will bypass the pagination process and always download the full dataset for the specified topic, however, only a single metric can be downloaded at a time.
 
 ## Example
 
