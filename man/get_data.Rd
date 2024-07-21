@@ -29,14 +29,14 @@ of \code{COVID-19} would only be available for a theme of \code{infectious_disea
 \item{metric}{the type of data being selected, for example \code{COVID-19_testing_PCRcountByDay}.}
 }
 \value{
-\if{html}{\out{<div class="sourceCode">}}\preformatted{      List of parameter options.
+\if{html}{\out{<div class="sourceCode">}}\preformatted{           List of parameter options.
 }\if{html}{\out{</div>}}
 
-\if{html}{\out{<div class="sourceCode">}}\preformatted{      Tibble of data for the given \code{parameters}.
+\if{html}{\out{<div class="sourceCode">}}\preformatted{           data.frame for the given query.
 }\if{html}{\out{</div>}}
 }
 \description{
-Interatively runs query to download all pages, combine the results and return a tibble.
+Iteratively runs query to download all results and combine them into a \code{data.frame}.
 }
 \details{
 For further information on the UKHSA dashboard API please visit

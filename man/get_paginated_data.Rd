@@ -35,7 +35,7 @@ of \code{COVID-19} would only be available for a theme of \code{infectious_disea
 \item{page_size}{define number of results returned per page. Maximum supported size is 365.}
 }
 \value{
-\if{html}{\out{<div class="sourceCode">}}\preformatted{       Data for the given query or a list of parameter options.
+\if{html}{\out{<div class="sourceCode">}}\preformatted{           Data for the given query or a list of parameter options.
 }\if{html}{\out{</div>}}
 }
 \description{

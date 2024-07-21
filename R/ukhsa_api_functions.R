@@ -1,6 +1,3 @@
-library(httr2)
-library(jsonlite)
-
 #' Get Paginated Data
 #' 
 #' Generates API query URL, retrieves paginated data and parses results into JSON format. If an API parameter 
@@ -25,6 +22,9 @@ library(jsonlite)
 #' @param page_size       define number of results returned per page. Maximum supported size is 365.
 #' 
 #' @return                Data for the given query or a list of parameter options.
+#' 
+#' @importFrom            httr2 request req_url_query req_timeout req_perform resp_body_string resp_status
+#' @importFrom            jsonlite fromJSON
 
 get_paginated_data <- function(theme = NULL, 
                                sub_theme = NULL, 
@@ -34,6 +34,14 @@ get_paginated_data <- function(theme = NULL,
                                metric = NULL,
                                page_number = 1,
                                page_size = 365) {
+  
+  # change blank strings to NULL
+  if(theme == "") theme <- NULL
+  if(sub_theme == "") sub_theme <- NULL
+  if(topic == "") topic <- NULL
+  if(geography_type == "") geography_type <- NULL
+  if(geography == "") geography <- NULL
+  if(metric == "") metric <- NULL
   
   # create API endpoint URL 
   if (is.null(theme)) {
@@ -187,7 +195,7 @@ get_data <- function(theme = NULL,
       break
     }
     
-    if (class(paginated_results) != "list") {
+    if (!is.list(paginated_results)) {
       return(paginated_results)
     }
     
