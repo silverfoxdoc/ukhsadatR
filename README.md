@@ -2,9 +2,9 @@
 
 This is a wrapper for the [UKHSA Data Dashboard](https://ukhsa-dashboard.data.gov.uk/) API, so that this data can be easily imported natively into `R`.
 
-For further detailed documentation on the UKHSA data dashboard API is available at [](https://ukhsa-dashboard.data.gov.uk/access-our-data).
+Further detailed documentation on the UKHSA data dashboard API is available [here](https://ukhsa-dashboard.data.gov.uk/access-our-data).
 
-This package based upon the `ukcovid19` package previously published by Public Health England; the source code for this package is housed at [](https://github.com/publichealthengland/coronavirus-dashboard-api-r-sdk).
+This package is based upon the `ukcovid19` package previously published by Public Health England; the source code for this package is housed [here](https://github.com/publichealthengland/coronavirus-dashboard-api-r-sdk).
 
 
 ## Installation
@@ -17,7 +17,7 @@ remotes::install_github("silverfoxdoc/UKHSAdashR")
 
 ## Pagination
 
-This API wrapper will bypass the pagination process and always download the full dataset for the specified topic, however, only a single metric can be downloaded at a time.
+This API wrapper will bypass the pagination process and always download the full dataset for the specified metric, however, only a single metric can be downloaded at a time.
 
 ## Example
 
