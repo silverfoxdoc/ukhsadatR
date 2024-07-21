@@ -36,12 +36,12 @@ get_paginated_data <- function(theme = NULL,
                                page_size = 365) {
   
   # change blank strings to NULL
-  if(theme == "") theme <- NULL
-  if(sub_theme == "") sub_theme <- NULL
-  if(topic == "") topic <- NULL
-  if(geography_type == "") geography_type <- NULL
-  if(geography == "") geography <- NULL
-  if(metric == "") metric <- NULL
+  if(any(is.null(theme) | theme == "")) theme <- NULL
+  if(any(is.null(sub_theme) | sub_theme == "")) sub_theme <- NULL
+  if(any(is.null(topic) | topic == "")) topic <- NULL
+  if(any(is.null(geography_type) | geography_type == "")) geography_type <- NULL
+  if(any(is.null(geography) | geography == "")) geography <- NULL
+  if(any(is.null(metric) | metric == "")) metric <- NULL
   
   # create API endpoint URL 
   if (is.null(theme)) {
