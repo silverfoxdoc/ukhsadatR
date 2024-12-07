@@ -16,29 +16,39 @@ get_paginated_data(
 )
 }
 \arguments{
-\item{theme}{the largest overall topical subgroup of data for example \code{infectious_disease}.}
+\item{theme}{the largest overall topical subgroup of data for
+example \code{infectious_disease}.}
 
-\item{sub_theme}{a topical subgroup associated with the parent theme. for example \code{respiratory}.}
+\item{sub_theme}{a topical subgroup associated with the parent theme.
+For example \code{respiratory}.}
 
-\item{topic}{categorical subgroup associated with the selected theme and sub_theme. For example a topic
-of \code{COVID-19} would only be available for a theme of \code{infectious_disease} and a sub_theme of
+\item{topic}{categorical subgroup associated with the selected
+theme and sub_theme. For example, a topic of
+\code{COVID-19} would only be available for a theme
+of \code{infectious_disease} and a sub_theme of
 \code{respiratory}.}
 
-\item{geography_type}{the overarching area type for the intended geography for example \code{Nation}.}
+\item{geography_type}{the overarching area type for the intended geography,
+for example \code{Nation}.}
 
-\item{geography}{the selected area under the \code{geography_type}. For example \code{England}.}
+\item{geography}{the selected area under the \code{geography_type},
+for example \code{England}.}
 
-\item{metric}{the type of data being selected. For example \code{COVID-19_testing_PCRcountByDay}.}
+\item{metric}{the type of data being selected,
+for example \code{COVID-19_testing_PCRcountByDay}.}
 
 \item{page_number}{define which page of data to retrieve}
 
-\item{page_size}{define number of results returned per page. Maximum supported size is 365.}
+\item{page_size}{define number of results returned per page.
+Maximum supported size is 365.}
 }
 \value{
-\if{html}{\out{<div class="sourceCode">}}\preformatted{           Data for the given query or a list of parameter options.
+\if{html}{\out{<div class="sourceCode">}}\preformatted{           Data for the given query or a list of parameter
+                   options.
 }\if{html}{\out{</div>}}
 }
 \description{
-Generates API query URL, retrieves paginated data and parses results into JSON format. If an API parameter
-is not provided then a list of possible parameters is returned.
+Generates API query URL, retrieves paginated data and parses results into
+JSON format. If an API parameter is not provided then a list of possible
+parameters is returned.
 }

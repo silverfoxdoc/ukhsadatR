@@ -14,19 +14,26 @@ get_data(
 )
 }
 \arguments{
-\item{theme}{the largest overall topical subgroup of data, for example \code{infectious_disease}.}
+\item{theme}{the largest overall topical subgroup of data,
+for example \code{infectious_disease}.}
 
-\item{sub_theme}{a topical subgroup associated with the parent theme, for example \code{respiratory}.}
+\item{sub_theme}{a topical subgroup associated with the parent theme,
+for example \code{respiratory}.}
 
-\item{topic}{categorical subgroup associated with the selected theme and sub_theme. For example a topic
-of \code{COVID-19} would only be available for a theme of \code{infectious_disease} and a sub_theme of
+\item{topic}{categorical subgroup associated with the selected
+theme and sub_theme. For example a topic of
+\code{COVID-19} would only be available for a theme
+of \code{infectious_disease} and a sub_theme of
 \code{respiratory}.}
 
-\item{geography_type}{the overarching area type for the intended geography, for example \code{Nation}.}
+\item{geography_type}{the overarching area type for the intended geography,
+for example \code{Nation}.}
 
-\item{geography}{the selected area under the \code{geography_type}, for example \code{England}.}
+\item{geography}{the selected area under the \code{geography_type},
+for example \code{England}.}
 
-\item{metric}{the type of data being selected, for example \code{COVID-19_testing_PCRcountByDay}.}
+\item{metric}{the type of data being selected,
+for example \code{COVID-19_testing_PCRcountByDay}.}
 }
 \value{
 \if{html}{\out{<div class="sourceCode">}}\preformatted{           List of parameter options.
@@ -36,7 +43,8 @@ of \code{COVID-19} would only be available for a theme of \code{infectious_disea
 }\if{html}{\out{</div>}}
 }
 \description{
-Iteratively runs query to download all results and combine them into a \code{data.frame}.
+Iteratively runs query to download all results and combine them into a
+\code{data.frame}.
 }
 \details{
 For further information on the UKHSA dashboard API please visit
