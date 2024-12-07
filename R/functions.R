@@ -4,37 +4,44 @@
 #' JSON format. If an API parameter is not provided then a list of possible
 #' parameters is returned.
 #'
-#' @param theme           the largest overall topical subgroup of data for
+#' @param theme           the largest overall topical subgroup of data. For
 #'                        example \code{infectious_disease}.
 #'
 #' @param sub_theme       a topical subgroup associated with the parent theme.
 #'                        For example \code{respiratory}.
 #'
 #' @param topic           categorical subgroup associated with the selected
-#'                        theme and sub_theme. For example, a topic of
-#'                        \code{COVID-19} would only be available for a theme
-#'                        of \code{infectious_disease} and a sub_theme of
-#'                        \code{respiratory}.
+#'                        theme and sub_theme. For example, \code{COVID-19}.
 #'
-#' @param geography_type  the overarching area type for the intended geography,
-#'                        for example \code{Nation}.
+#' @param geography_type  the overarching area type for the intended geography.
+#'                        For example \code{Nation}.
 #'
-#' @param geography       the selected area under the \code{geography_type},
-#'                        for example \code{England}.
+#' @param geography       the selected area under the \code{geography_type}.
+#'                        For example \code{England}.
 #'
-#' @param metric          the type of data being selected,
-#'                        for example \code{COVID-19_testing_PCRcountByDay}.
+#' @param metric          the type of data being selected.
+#'                        For example \code{COVID-19_testing_PCRcountByDay}.
 #'
 #' @param page_number     define which page of data to retrieve
 #'
 #' @param page_size       define number of results returned per page.
 #'                        Maximum supported size is 365.
 #'
-#' @return                Data for the given query or a list of parameter
-#'                        options.
+#' @return                data.frame for the given query or character vector of parameter
+#'                        options
 #'
 #' @importFrom            httr2 request req_url_query req_timeout req_perform resp_body_string resp_status
 #' @importFrom            jsonlite fromJSON
+#' 
+#' @examples
+#' data <- get_data(
+#'           theme = "infectious_disease",
+#'           sub_theme = "respiratory",
+#'           topic = "COVID-19",
+#'           geography_type = "Nation",
+#'           geography = "England",
+#'           metric = "COVID-19_cases_casesByDay"
+#'           )
 
 get_paginated_data <- function(theme = NULL,
                                sub_theme = NULL,
@@ -192,36 +199,32 @@ get_paginated_data <- function(theme = NULL,
 
 #' Get Data
 #'
-#' Iteratively runs query to download all results and combine them into a
-#' `data.frame`.
+#' Iteratively runs \code{\link{get_paginated_data}} to download all results and
+#' combine them into a `data.frame`.
 #'
 #' For further information on the UKHSA dashboard API please visit
 #' the \href{https://ukhsa-dashboard.data.gov.uk/access-our-data}{API documentation}.
 #'
-#' @param theme           the largest overall topical subgroup of data,
-#'                        for example \code{infectious_disease}.
+#' @param theme           the largest overall topical subgroup of data. For
+#'                        example \code{infectious_disease}.
 #'
-#' @param sub_theme       a topical subgroup associated with the parent theme,
-#'                        for example \code{respiratory}.
+#' @param sub_theme       a topical subgroup associated with the parent theme.
+#'                        For example \code{respiratory}.
 #'
 #' @param topic           categorical subgroup associated with the selected
-#'                        theme and sub_theme. For example a topic of
-#'                        \code{COVID-19} would only be available for a theme
-#'                        of \code{infectious_disease} and a sub_theme of
-#'                        \code{respiratory}.
+#'                        theme and sub_theme. For example, \code{COVID-19}.
 #'
-#' @param geography_type  the overarching area type for the intended geography,
-#'                        for example \code{Nation}.
+#' @param geography_type  the overarching area type for the intended geography.
+#'                        For example \code{Nation}.
 #'
-#' @param geography       the selected area under the \code{geography_type},
-#'                        for example \code{England}.
+#' @param geography       the selected area under the \code{geography_type}.
+#'                        For example \code{England}.
 #'
-#' @param metric          the type of data being selected,
-#'                        for example \code{COVID-19_testing_PCRcountByDay}.
+#' @param metric          the type of data being selected.
+#'                        For example \code{COVID-19_testing_PCRcountByDay}.
 #'
-#' @return                List of parameter options.
-#'
-#' @return                data.frame for the given query.
+#' @return                data.frame for the given query or character vector of parameter
+#'                        options
 #'
 #' @export
 #'

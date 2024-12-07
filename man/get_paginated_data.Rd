@@ -16,26 +16,23 @@ get_paginated_data(
 )
 }
 \arguments{
-\item{theme}{the largest overall topical subgroup of data for
+\item{theme}{the largest overall topical subgroup of data. For
 example \code{infectious_disease}.}
 
 \item{sub_theme}{a topical subgroup associated with the parent theme.
 For example \code{respiratory}.}
 
 \item{topic}{categorical subgroup associated with the selected
-theme and sub_theme. For example, a topic of
-\code{COVID-19} would only be available for a theme
-of \code{infectious_disease} and a sub_theme of
-\code{respiratory}.}
+theme and sub_theme. For example, \code{COVID-19}.}
 
-\item{geography_type}{the overarching area type for the intended geography,
-for example \code{Nation}.}
+\item{geography_type}{the overarching area type for the intended geography.
+For example \code{Nation}.}
 
-\item{geography}{the selected area under the \code{geography_type},
-for example \code{England}.}
+\item{geography}{the selected area under the \code{geography_type}.
+For example \code{England}.}
 
-\item{metric}{the type of data being selected,
-for example \code{COVID-19_testing_PCRcountByDay}.}
+\item{metric}{the type of data being selected.
+For example \code{COVID-19_testing_PCRcountByDay}.}
 
 \item{page_number}{define which page of data to retrieve}
 
@@ -43,12 +40,22 @@ for example \code{COVID-19_testing_PCRcountByDay}.}
 Maximum supported size is 365.}
 }
 \value{
-\if{html}{\out{<div class="sourceCode">}}\preformatted{           Data for the given query or a list of parameter
-                   options.
+\if{html}{\out{<div class="sourceCode">}}\preformatted{           data.frame for the given query or character vector of parameter
+                   options
 }\if{html}{\out{</div>}}
 }
 \description{
 Generates API query URL, retrieves paginated data and parses results into
 JSON format. If an API parameter is not provided then a list of possible
 parameters is returned.
+}
+\examples{
+data <- get_data(
+          theme = "infectious_disease",
+          sub_theme = "respiratory",
+          topic = "COVID-19",
+          geography_type = "Nation",
+          geography = "England",
+          metric = "COVID-19_cases_casesByDay"
+          )
 }
