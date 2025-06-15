@@ -4,7 +4,7 @@ This is a wrapper for the [UKHSA Data Dashboard](https://ukhsa-dashboard.data.go
 
 Further detailed documentation on the UKHSA data dashboard API is available [here](https://ukhsa-dashboard.data.gov.uk/access-our-data).
 
-This package is based upon the `ukcovid19` package previously published by Public Health England; the source code for this package is housed [here](https://github.com/publichealthengland/coronavirus-dashboard-api-r-sdk).
+This package is based upon the `ukcovid19` package previously published by Public Health England; the source code for this package is housed [here](https://github.com/UKHSA-Internal/coronavirus-dashboard-api-R-sdk).
 
 
 ## Installation
