@@ -1,4 +1,4 @@
-# UKHSA Data Dashboard API `R` Wrapper
+# UKHSA Data Dashboard API `R` Package
 
 This is a wrapper for the [UKHSA Data Dashboard](https://ukhsa-dashboard.data.gov.uk/) API, so that this data can be easily imported natively into `R`.
 
@@ -12,7 +12,7 @@ This package is based upon the `ukcovid19` package previously published by Publi
 At present this package is only available on github and can be installed as follows:
 
 ``` r
-remotes::install_github("silverfoxdoc/UKHSAdashR")
+remotes::install_github("silverfoxdoc/ukhsadatR")
 ```
 
 ## Pagination
