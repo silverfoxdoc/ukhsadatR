@@ -9,8 +9,12 @@ This package is based upon the `ukcovid19` package previously published by Publi
 
 ## Installation
 
-At present this package is only available on github and can be installed as follows:
+To install the latest release version from CRAN:
+``` r
+install.packages("ukhsadatR")
+```
 
+To install the latest development version:
 ``` r
 remotes::install_github("silverfoxdoc/ukhsadatR")
 ```

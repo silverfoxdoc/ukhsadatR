@@ -24,7 +24,7 @@
 #'
 #' @param page_size       define number of results returned per page.
 #'                        Maximum supported size is 365.
-#'
+#' 
 #' @return                list containing the query structure and results
 #'
 #' @details               If any input argument is left NULL or invalid, a list of possible values for that parameter is
