@@ -40,22 +40,25 @@ For example \code{COVID-19_testing_PCRcountByDay}.}
 Maximum supported size is 365.}
 }
 \value{
-\if{html}{\out{<div class="sourceCode">}}\preformatted{           data.frame for the given query or character vector of parameter
-                   options
+\if{html}{\out{<div class="sourceCode">}}\preformatted{           list containing the query structure and results
 }\if{html}{\out{</div>}}
 }
 \description{
-Generates API query URL, retrieves paginated data and parses results into
-JSON format. If an API parameter is not provided then a list of possible
-parameters is returned.
+Generates API query URL and retrieves paginated data.
+}
+\details{
+\if{html}{\out{<div class="sourceCode">}}\preformatted{          If any input argument is left NULL or invalid, a list of possible values for that parameter is
+                   returned.
+}\if{html}{\out{</div>}}
 }
 \examples{
-data <- get_data(
+data <- get_paginated_data(
           theme = "infectious_disease",
           sub_theme = "respiratory",
           topic = "COVID-19",
           geography_type = "Nation",
           geography = "England",
-          metric = "COVID-19_cases_casesByDay"
+          metric = "COVID-19_cases_casesByDay",
+          page_number = 2
           )
 }

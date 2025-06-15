@@ -33,8 +33,7 @@ For example \code{England}.}
 For example \code{COVID-19_testing_PCRcountByDay}.}
 }
 \value{
-\if{html}{\out{<div class="sourceCode">}}\preformatted{           data.frame for the given query or character vector of parameter
-                   options
+\if{html}{\out{<div class="sourceCode">}}\preformatted{           data.frame containing the query results
 }\if{html}{\out{</div>}}
 }
 \description{
@@ -44,6 +43,10 @@ combine them into a \code{data.frame}.
 \details{
 For further information on the UKHSA dashboard API please visit
 the \href{https://ukhsa-dashboard.data.gov.uk/access-our-data}{API documentation}.
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{          If any input argument is left NULL or invalid, a list of possible values for that parameter is
+                   returned.
+}\if{html}{\out{</div>}}
 }
 \examples{
 data <- get_data(

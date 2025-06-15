@@ -1,8 +1,6 @@
 #' Get Paginated Data
 #'
-#' Generates API query URL, retrieves paginated data and parses results into
-#' JSON format. If an API parameter is not provided then a list of possible
-#' parameters is returned.
+#' Generates API query URL and retrieves paginated data.
 #'
 #' @param theme           the largest overall topical subgroup of data. For
 #'                        example \code{infectious_disease}.
@@ -27,174 +25,156 @@
 #' @param page_size       define number of results returned per page.
 #'                        Maximum supported size is 365.
 #'
-#' @return                data.frame for the given query or character vector of parameter
-#'                        options
+#' @return                list containing the query structure and results
+#'
+#' @details               If any input argument is left NULL or invalid, a list of possible values for that parameter is
+#'                        returned.
 #'
 #' @importFrom            httr2 request req_url_query req_timeout req_perform resp_body_string resp_status
 #' @importFrom            jsonlite fromJSON
+#' @importFrom            utils URLencode
 #' 
+#' @export
+#'
 #' @examples
-#' data <- get_data(
+#' data <- get_paginated_data(
 #'           theme = "infectious_disease",
 #'           sub_theme = "respiratory",
 #'           topic = "COVID-19",
 #'           geography_type = "Nation",
 #'           geography = "England",
-#'           metric = "COVID-19_cases_casesByDay"
+#'           metric = "COVID-19_cases_casesByDay",
+#'           page_number = 2
 #'           )
 
-get_paginated_data <- function(theme = NULL,
-                               sub_theme = NULL,
-                               topic = NULL,
-                               geography_type = NULL,
-                               geography = NULL,
-                               metric = NULL,
-                               page_number = 1,
-                               page_size = 365) {
+get_paginated_data <- function(
+  theme = NULL,
+  sub_theme = NULL,
+  topic = NULL,
+  geography_type = NULL,
+  geography = NULL,
+  metric = NULL,
+  page_number = 1,
+  page_size = 365
+) {
+  # Ensure empty strings are converted to NULL
+  clean_argument <- function(x) if (is.null(x) || x == "") NULL else x
 
-  # change blank strings to NULL
-  if (any(is.null(theme) | theme == "")) theme <- NULL
-  if (any(is.null(sub_theme) | sub_theme == "")) sub_theme <- NULL
-  if (any(is.null(topic) | topic == "")) topic <- NULL
-  if (any(is.null(geography_type) | geography_type == "")) geography_type <- NULL
-  if (any(is.null(geography) | geography == "")) geography <- NULL
-  if (any(is.null(metric) | metric == "")) metric <- NULL
+  theme <- clean_argument(theme)
+  sub_theme <- clean_argument(sub_theme)
+  topic <- clean_argument(topic)
+  geography_type <- clean_argument(geography_type)
+  geography <- clean_argument(geography)
+  metric <- clean_argument(metric)
 
-  # create API endpoint URL
-  if (is.null(theme)) {
-    url <- paste("https://api.ukhsa-dashboard.data.gov.uk/themes")
-  } else {
-    if (is.null(sub_theme)) {
-      url <- paste("https://api.ukhsa-dashboard.data.gov.uk/themes",
-                   gsub(" ", "%20", theme),
-                   "sub_themes",
-                   sep = "/")
-    } else {
-      if (is.null(topic)) {
-        url <- paste("https://api.ukhsa-dashboard.data.gov.uk/themes",
-                     gsub(" ", "%20", theme),
-                     "sub_themes",
-                     gsub(" ", "%20", sub_theme),
-                     "topics",
-                     sep = "/")
-      } else {
-        if (is.null(geography_type)) {
-          url <- paste("https://api.ukhsa-dashboard.data.gov.uk/themes",
-                       gsub(" ", "%20", theme),
-                       "sub_themes",
-                       gsub(" ", "%20", sub_theme),
-                       "topics",
-                       gsub(" ", "%20", topic),
-                       "geography_types",
-                       sep = "/")
-        } else {
-          if (is.null(geography)) {
-            url <- paste("https://api.ukhsa-dashboard.data.gov.uk/themes",
-                         gsub(" ", "%20", theme),
-                         "sub_themes",
-                         gsub(" ", "%20", sub_theme),
-                         "topics",
-                         gsub(" ", "%20", topic),
-                         "geography_types",
-                         gsub(" ", "%20", geography_type),
-                         "geographies",
-                         sep = "/")
-          } else {
-            if (is.null(metric)) {
-              url <- paste("https://api.ukhsa-dashboard.data.gov.uk/themes",
-                           gsub(" ", "%20", theme),
-                           "sub_themes",
-                           gsub(" ", "%20", sub_theme),
-                           "topics",
-                           gsub(" ", "%20", topic),
-                           "geography_types",
-                           gsub(" ", "%20", geography_type),
-                           "geographies",
-                           gsub(" ", "%20", geography),
-                           "metrics",
-                           sep = "/")
-            } else {
-              url <- paste("https://api.ukhsa-dashboard.data.gov.uk/themes",
-                           gsub(" ", "%20", theme),
-                           "sub_themes",
-                           gsub(" ", "%20", sub_theme),
-                           "topics",
-                           gsub(" ", "%20", topic),
-                           "geography_types",
-                           gsub(" ", "%20", geography_type),
-                           "geographies",
-                           gsub(" ", "%20", geography),
-                           "metrics",
-                           gsub(" ", "%20", metric),
-                           sep = "/")
-            }
-          }
-        }
-      }
-    }
+  # Validate page_size
+  if (page_size > 365) {
+    stop("Maximum allowed page_size is 365")
   }
 
-  # get response for url for use in error control
+  # Base API URL
+  base <- "https://api.ukhsa-dashboard.data.gov.uk/themes"
+
+  # Helper to get options and validate
+  get_and_validate <- function(url, value, label) {
+    json_result <- httr2::request(url) |>
+      httr2::req_timeout(10) |>
+      httr2::req_perform() |>
+      httr2::resp_body_string() |>
+      jsonlite::fromJSON()
+
+    options <- json_result[["name"]]
+
+    if (is.null(options) || length(options) == 0) {
+      stop(sprintf(
+        "Unable to retrieve valid %s options from API. Please check the upstream API response or try again later.",
+        label
+      ))
+    }
+
+    if (is.null(value)) {
+      stop(sprintf(
+        "No %s entered. Available options:\n\n%s",
+        label,
+        paste(options, collapse = "\n")
+      ))
+    }
+
+    if (!value %in% options) {
+      stop(sprintf(
+        "Invalid %s: '%s'. Available options:\n\n%s",
+        label,
+        value,
+        paste(options, collapse = "\n")
+      ))
+    }
+
+    return(value)
+  }
+
+  # Sequential validation and path construction
+  if (is.null(theme)) {
+    return(get_and_validate(base, NULL, "Theme"))
+  }
+  theme <- get_and_validate(base, theme, "Theme")
+
+  base <- paste(base, utils::URLencode(theme), "sub_themes", sep = "/")
+  if (is.null(sub_theme)) {
+    return(get_and_validate(base, NULL, "Sub-theme"))
+  }
+  sub_theme <- get_and_validate(base, sub_theme, "Sub-theme")
+
+  base <- paste(base, utils::URLencode(sub_theme), "topics", sep = "/")
+  if (is.null(topic)) {
+    return(get_and_validate(base, NULL, "Topic"))
+  }
+  topic <- get_and_validate(base, topic, "Topic")
+
+  base <- paste(base, utils::URLencode(topic), "geography_types", sep = "/")
+  if (is.null(geography_type)) {
+    return(get_and_validate(base, NULL, "Geography Type"))
+  }
+  geography_type <- get_and_validate(base, geography_type, "Geography Type")
+
+  base <- paste(
+    base,
+    utils::URLencode(geography_type),
+    "geographies",
+    sep = "/"
+  )
+  if (is.null(geography)) {
+    return(get_and_validate(base, NULL, "Geography"))
+  }
+  geography <- get_and_validate(base, geography, "Geography")
+
+  base <- paste(base, utils::URLencode(geography), "metrics", sep = "/")
+  if (is.null(metric)) {
+    return(get_and_validate(base, NULL, "Metric"))
+  }
+  metric <- get_and_validate(base, metric, "Metric")
+
+  url <- paste(base, utils::URLencode(metric), sep = "/")
+
+  # Paginated request
   response <- httr2::request(url) |>
-    httr2::req_timeout(10) |>
+    httr2::req_url_query(page_size = page_size, page = page_number) |>
     httr2::req_perform()
 
-  # get parameters when query not fully completed
-  parameters <- httr2::request(url) |>
-    httr2::req_perform() |>
-    httr2::resp_body_string() |>
-    jsonlite::fromJSON() |>
-    _[["name"]]
-
-  # Handle errors; return parameters if not completed fully; return result if
-  # query fully entered
   if (response$status_code >= 400) {
-    stop(httr2::resp_status(response))
-  } else {
-    if (response$status_code == 204) {
-      response <- NULL
-    } else {
-      if (is.null(theme)) {
-        writeLines("\nTheme:\n")
-        return(parameters)
-      } else {
-        if (is.null(sub_theme)) {
-          writeLines("\nSub Theme:\n")
-          return(parameters)
-        } else {
-          if (is.null(topic)) {
-            writeLines("\nTopic:\n")
-            return(parameters)
-          } else {
-            if (is.null(geography_type)) {
-              writeLines("\nGeography Type:\n")
-              return(parameters)
-            } else {
-              if (is.null(geography)) {
-                writeLines("\nGeography:\n")
-                return(parameters)
-              } else {
-                if (is.null(metric)) {
-                  writeLines("\nMetric:\n")
-                  return(parameters)
-                } else {
-                  # add page size/number query & return paginated results
-                  result <- httr2::request(url) |>
-                    httr2::req_url_query(page_size = page_size, page = page_number) |>
-                    httr2::req_perform() |>
-                    httr2::resp_body_string() |>
-                    jsonlite::fromJSON()
-
-                  return(result)
-                }
-              }
-            }
-          }
-        }
-      }
-    }
+    stop(sprintf(
+      "API request failed [%s]: %s",
+      response$status_code,
+      httr2::resp_status(response)
+    ))
   }
+
+  result <- httr2::resp_body_string(response) |>
+    jsonlite::fromJSON()
+
+  return(result)
 }
+
+
 
 
 #' Get Data
@@ -223,8 +203,10 @@ get_paginated_data <- function(theme = NULL,
 #' @param metric          the type of data being selected.
 #'                        For example \code{COVID-19_testing_PCRcountByDay}.
 #'
-#' @return                data.frame for the given query or character vector of parameter
-#'                        options
+#' @return                data.frame containing the query results
+#'
+#' @details               If any input argument is left NULL or invalid, a list of possible values for that parameter is
+#'                        returned.
 #'
 #' @export
 #'
@@ -238,19 +220,19 @@ get_paginated_data <- function(theme = NULL,
 #'           metric = "COVID-19_cases_casesByDay"
 #'           )
 
-get_data <- function(theme = NULL,
-                     sub_theme = NULL,
-                     topic = NULL,
-                     geography_type = NULL,
-                     geography = NULL,
-                     metric = NULL) {
-
-  results <- list()
+get_data <- function(
+  theme = NULL,
+  sub_theme = NULL,
+  topic = NULL,
+  geography_type = NULL,
+  geography = NULL,
+  metric = NULL
+) {
   current_page <- 1
+  results <- list()
 
   repeat {
-
-    paginated_results <- get_paginated_data(
+    paginated <- get_paginated_data(
       theme = theme,
       sub_theme = sub_theme,
       topic = topic,
@@ -260,24 +242,31 @@ get_data <- function(theme = NULL,
       page_number = current_page
     )
 
-    if (is.null(paginated_results)) {
+    if (is.null(paginated)) {
       break
     }
 
-    if (!is.list(paginated_results)) {
-      return(paginated_results)
+    if (!is.list(paginated)) {
+      return(paginated)
     }
 
-    results <- rbind(results, paginated_results$results)
+    if (length(paginated$results) == 0) {
+      break
+    }
 
-    if (is.null(paginated_results$`next`)) {
+    results[[length(results) + 1]] <- paginated$results
+
+    if (is.null(paginated$`next`)) {
       break
     }
 
     current_page <- current_page + 1
-
   }
 
-  return(results)
+  if (length(results) == 0) {
+    warning("No results were returned by the API.")
+    return(data.frame())
+  }
 
+  do.call(rbind.data.frame, results)
 }

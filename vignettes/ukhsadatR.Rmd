@@ -1,0 +1,37 @@
+---
+title: "Intoduction to ukhsadatR"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{ukhsadatR}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+## Introduction
+
+The `ukhsadatR` package provides easy access to UK Health Security Agency (UKHSA) data via their API.
+
+## Example
+
+Below demonstrates how to retrieve daily reported COVID-19 cases at the national level for England:
+
+```{r} 
+library(ukhsadatR)
+
+get_data(
+  theme = "infectious_disease",
+  sub_theme = "respiratory",
+  topic = "COVID-19",
+  geography_type = "Nation",
+  geography = "England",
+  metric = "COVID-19_cases_casesByDay"
+) |> 
+  head()
+```

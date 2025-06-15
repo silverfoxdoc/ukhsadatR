@@ -1,31 +1,31 @@
-Package: UKHSAdashR
-Title: UKHSA Dashboard API Wrappepr
-Version: 0.1
-Date: 2024-12-07
+Package: ukhsadatR
+Title: UKHSA Data Dashboard API Wrapper
+Version: 0.1.0
 Authors@R: person(
-        given = "Ollie",
-        family = "Lloyd",
-        role = c("aut", "cre"),
-        email = "o.lloyd@doctors.org.uk",
-        comment = c(ORCID = "0000-0002-9385-1634")
-    )
-Author: Ollie Lloyd [aut, cre]
-Maintainer: Ollie Lloyd <o.lloyd@doctors.org.uk>
-Description: `R` wrapper to interactively access data from the UKHSA data dashboard. Futher API information
-        available at '<https://ukhsa-dashboard.data.gov.uk/access-our-data>'. Based on `ukcovid19` package, see 
-        '<https://github.com/UKHSA-Internal/coronavirus-dashboard-api-R-sdk>'.
+  given = "Ollie",
+  family = "Lloyd",
+  role = c("aut", "cre"),
+  email = "o.lloyd@doctors.org.uk",
+  comment = c(ORCID = "0000-0002-9385-1634")
+  )
+Description: R wrapper to interactively access data from the UKHSA data dashboard. 
+  Further API information available at <https://ukhsa-dashboard.data.gov.uk/access-our-data>. 
+  Based on `ukcovid19` package, see <https://github.com/UKHSA-Internal/coronavirus-dashboard-api-R-sdk>.
+URL: https://github.com/silverfoxdoc/ukhsadatR
+BugReports: https://github.com/silverfoxdoc/ukhsadatR/issues
 License: MIT + file LICENSE
 Copyright: Crown Copyright
+Depends: 
+  R (>= 4.3)
+Imports:
+  httr2,
+  jsonlite,
+  utils
+Suggests:
+  testthat,
+  knitr,
+  rmarkdown
+VignetteBuilder: knitr
 Encoding: UTF-8
-LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.2
-Suggests: 
-    testthat,
-    knitr,
-    rmarkdown
-Imports:
-    httr2,
-    jsonlite
-VignetteBuilder: knitr
-URL: https://ukhsa-dashboard.data.gov.uk/access-our-data
