@@ -49,12 +49,12 @@ the \href{https://ukhsa-dashboard.data.gov.uk/access-our-data}{API documentation
 }\if{html}{\out{</div>}}
 }
 \examples{
-data <- get_data(
-          theme = "infectious_disease",
-          sub_theme = "respiratory",
-          topic = "COVID-19",
-          geography_type = "Nation",
-          geography = "England",
-          metric = "COVID-19_cases_casesByDay"
-          )
+get_data(
+  theme = "infectious_disease",
+  sub_theme = "respiratory",
+  topic = "COVID-19",
+  geography_type = "Nation",
+  geography = "England",
+  metric = "COVID-19_cases_casesByDay"
+)
 }

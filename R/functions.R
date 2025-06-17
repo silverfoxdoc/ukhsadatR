@@ -1,3 +1,6 @@
+# Sentinel for validation failure in UKHSA data functions
+.validation_failed <- structure(list(), class = "api_validation_error")
+
 #' Get Paginated Data
 #'
 #' Generates API query URL and retrieves paginated data.
@@ -37,15 +40,15 @@
 #' @export
 #'
 #' @examples
-#' data <- get_paginated_data(
-#'           theme = "infectious_disease",
-#'           sub_theme = "respiratory",
-#'           topic = "COVID-19",
-#'           geography_type = "Nation",
-#'           geography = "England",
-#'           metric = "COVID-19_cases_casesByDay",
-#'           page_number = 2
-#'           )
+#' get_paginated_data(
+#'   theme = "infectious_disease",
+#'   sub_theme = "respiratory",
+#'   topic = "COVID-19",
+#'   geography_type = "Nation",
+#'   geography = "England",
+#'   metric = "COVID-19_cases_casesByDay",
+#'   page_number = 2
+#' )
 
 get_paginated_data <- function(
   theme = NULL,
@@ -57,124 +60,119 @@ get_paginated_data <- function(
   page_number = 1,
   page_size = 365
 ) {
-  # Ensure empty strings are converted to NULL
   clean_argument <- function(x) if (is.null(x) || x == "") NULL else x
 
-  theme <- clean_argument(theme)
-  sub_theme <- clean_argument(sub_theme)
-  topic <- clean_argument(topic)
-  geography_type <- clean_argument(geography_type)
-  geography <- clean_argument(geography)
-  metric <- clean_argument(metric)
+  list2env(
+    lapply(
+      list(
+        theme = theme,
+        sub_theme = sub_theme,
+        topic = topic,
+        geography_type = geography_type,
+        geography = geography,
+        metric = metric
+      ),
+      clean_argument
+    ),
+    envir = environment()
+  )
 
-  # Validate page_size
   if (page_size > 365) {
     stop("Maximum allowed page_size is 365")
   }
 
-  # Base API URL
   base <- "https://api.ukhsa-dashboard.data.gov.uk/themes"
 
-  # Helper to get options and validate
   get_and_validate <- function(url, value, label) {
-    json_result <- httr2::request(url) |>
-      httr2::req_timeout(10) |>
-      httr2::req_perform() |>
-      httr2::resp_body_string() |>
-      jsonlite::fromJSON()
+    result <- tryCatch({
+      json_result <- httr2::request(url) |>
+        httr2::req_timeout(10) |>
+        httr2::req_perform() |>
+        httr2::resp_body_string() |>
+        jsonlite::fromJSON()
 
-    options <- json_result[["name"]]
+      options <- json_result[["name"]]
 
-    if (is.null(options) || length(options) == 0) {
-      stop(sprintf(
-        "Unable to retrieve valid %s options from API. Please check the upstream API response or try again later.",
-        label
-      ))
-    }
+      if (is.null(options) || length(options) == 0) {
+        stop(sprintf(
+          "Unable to retrieve valid %s options from API. Please check the upstream API response or try again later.",
+          label
+        ))
+      }
 
-    if (is.null(value)) {
-      stop(sprintf(
-        "No %s entered. Available options:\n\n%s",
-        label,
-        paste(options, collapse = "\n")
-      ))
-    }
+      if (is.null(value)) {
+        stop(sprintf(
+          "No '%s' entered. Available options:\n\n%s",
+          label,
+          paste(options, collapse = "\n")
+        ))
+      }
 
-    if (!value %in% options) {
-      stop(sprintf(
-        "Invalid %s: '%s'. Available options:\n\n%s",
-        label,
-        value,
-        paste(options, collapse = "\n")
-      ))
-    }
+      if (!value %in% options) {
+        stop(sprintf(
+          "Invalid %s: '%s'. Available options:\n\n%s",
+          label,
+          value,
+          paste(options, collapse = "\n")
+        ))
+      }
 
-    return(value)
+      return(value)
+    }, error = function(e) {
+      message(sprintf("! %s", conditionMessage(e)))
+    })
+
+    return(result)
   }
 
-  # Sequential validation and path construction
-  if (is.null(theme)) {
-    return(get_and_validate(base, NULL, "Theme"))
-  }
   theme <- get_and_validate(base, theme, "Theme")
+  if (is.null(theme)) return(.validation_failed)
 
   base <- paste(base, utils::URLencode(theme), "sub_themes", sep = "/")
-  if (is.null(sub_theme)) {
-    return(get_and_validate(base, NULL, "Sub-theme"))
-  }
   sub_theme <- get_and_validate(base, sub_theme, "Sub-theme")
+  if (is.null(sub_theme)) return(.validation_failed)
 
   base <- paste(base, utils::URLencode(sub_theme), "topics", sep = "/")
-  if (is.null(topic)) {
-    return(get_and_validate(base, NULL, "Topic"))
-  }
   topic <- get_and_validate(base, topic, "Topic")
+  if (is.null(topic)) return(.validation_failed)
 
   base <- paste(base, utils::URLencode(topic), "geography_types", sep = "/")
-  if (is.null(geography_type)) {
-    return(get_and_validate(base, NULL, "Geography Type"))
-  }
   geography_type <- get_and_validate(base, geography_type, "Geography Type")
+  if (is.null(geography_type)) return(.validation_failed)
 
-  base <- paste(
-    base,
-    utils::URLencode(geography_type),
-    "geographies",
-    sep = "/"
-  )
-  if (is.null(geography)) {
-    return(get_and_validate(base, NULL, "Geography"))
-  }
+  base <- paste(base, utils::URLencode(geography_type), "geographies", sep = "/")
   geography <- get_and_validate(base, geography, "Geography")
+  if (is.null(geography)) return(.validation_failed)
 
   base <- paste(base, utils::URLencode(geography), "metrics", sep = "/")
-  if (is.null(metric)) {
-    return(get_and_validate(base, NULL, "Metric"))
-  }
   metric <- get_and_validate(base, metric, "Metric")
+  if (is.null(metric)) return(.validation_failed)
 
   url <- paste(base, utils::URLencode(metric), sep = "/")
 
-  # Paginated request
-  response <- httr2::request(url) |>
-    httr2::req_url_query(page_size = page_size, page = page_number) |>
-    httr2::req_perform()
+  # Gracefully handle paginated data fetch
+  result <- tryCatch({
+    response <- httr2::request(url) |>
+      httr2::req_url_query(page_size = page_size, page = page_number) |>
+      httr2::req_timeout(10) |>
+      httr2::req_perform()
 
-  if (response$status_code >= 400) {
-    stop(sprintf(
-      "API request failed [%s]: %s",
-      response$status_code,
-      httr2::resp_status(response)
-    ))
-  }
+    if (response$status_code >= 400) {
+      stop(sprintf(
+        "API request failed [%s]: %s",
+        response$status_code,
+        httr2::resp_status(response)
+      ))
+    }
 
-  result <- httr2::resp_body_string(response) |>
-    jsonlite::fromJSON()
+    httr2::resp_body_string(response) |>
+      jsonlite::fromJSON()
+  }, error = function(e) {
+    message("! Could not retrieve data from UKHSA API: ", conditionMessage(e))
+  })
 
   return(result)
 }
-
-
 
 
 #' Get Data
@@ -211,14 +209,14 @@ get_paginated_data <- function(
 #' @export
 #'
 #' @examples
-#' data <- get_data(
-#'           theme = "infectious_disease",
-#'           sub_theme = "respiratory",
-#'           topic = "COVID-19",
-#'           geography_type = "Nation",
-#'           geography = "England",
-#'           metric = "COVID-19_cases_casesByDay"
-#'           )
+#' get_data(
+#'   theme = "infectious_disease",
+#'   sub_theme = "respiratory",
+#'   topic = "COVID-19",
+#'   geography_type = "Nation",
+#'   geography = "England",
+#'   metric = "COVID-19_cases_casesByDay"
+#' )
 
 get_data <- function(
   theme = NULL,
@@ -242,23 +240,17 @@ get_data <- function(
       page_number = current_page
     )
 
-    if (is.null(paginated)) {
-      break
-    }
+    if (inherits(paginated, "api_validation_error")) return(invisible(NULL))
 
-    if (!is.list(paginated)) {
-      return(paginated)
-    }
+    if (is.null(paginated)) break
 
-    if (length(paginated$results) == 0) {
-      break
-    }
+    if (!is.list(paginated)) return(paginated)
+
+    if (length(paginated$results) == 0) break
 
     results[[length(results) + 1]] <- paginated$results
 
-    if (is.null(paginated$`next`)) {
-      break
-    }
+    if (is.null(paginated$`next`)) break
 
     current_page <- current_page + 1
   }

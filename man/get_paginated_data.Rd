@@ -52,13 +52,13 @@ Generates API query URL and retrieves paginated data.
 }\if{html}{\out{</div>}}
 }
 \examples{
-data <- get_paginated_data(
-          theme = "infectious_disease",
-          sub_theme = "respiratory",
-          topic = "COVID-19",
-          geography_type = "Nation",
-          geography = "England",
-          metric = "COVID-19_cases_casesByDay",
-          page_number = 2
-          )
+get_paginated_data(
+  theme = "infectious_disease",
+  sub_theme = "respiratory",
+  topic = "COVID-19",
+  geography_type = "Nation",
+  geography = "England",
+  metric = "COVID-19_cases_casesByDay",
+  page_number = 2
+)
 }
