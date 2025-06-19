@@ -2,4 +2,4 @@
 
 0 errors | 0 warnings | 1 note
 
-* This is a new release.
+* updated errors/warnings to fail gracefully as messages, given the dependancy on external API URL.

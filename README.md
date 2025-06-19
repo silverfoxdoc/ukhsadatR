@@ -1,5 +1,8 @@
 # UKHSA Data Dashboard API `R` Package
 
+[![CRAN status](https://www.r-pkg.org/badges/version/ukhsadatR)](https://CRAN.R-project.org/package=ukhsadatR)
+[![R-CMD-check](https://github.com/silverfoxdoc/ukhsadatR/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/silverfoxdoc/ukhsadatR/actions)
+
 This is a wrapper for the [UKHSA Data Dashboard](https://ukhsa-dashboard.data.gov.uk/) API, so that this data can be easily imported natively into `R`.
 
 Further detailed documentation on the UKHSA data dashboard API is available [here](https://ukhsa-dashboard.data.gov.uk/access-our-data).
