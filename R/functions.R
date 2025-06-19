@@ -27,16 +27,17 @@
 #'
 #' @param page_size       define number of results returned per page.
 #'                        Maximum supported size is 365.
-#' 
+#'
 #' @return                list containing the query structure and results
 #'
-#' @details               If any input argument is left NULL or invalid, a list of possible values for that parameter is
-#'                        returned.
+#' @details               If any input argument is left NULL or invalid, a list
+#'                        of possible values for that parameter is returned.
 #'
-#' @importFrom            httr2 request req_url_query req_timeout req_perform resp_body_string resp_status
+#' @importFrom            httr2 request req_url_query req_timeout req_perform
+#'                        resp_body_string resp_status
 #' @importFrom            jsonlite fromJSON
 #' @importFrom            utils URLencode
-#' 
+#'
 #' @export
 #'
 #' @examples
@@ -122,7 +123,7 @@ get_paginated_data <- function(
       message(sprintf("! %s", conditionMessage(e)))
     })
 
-    return(result)
+    result
   }
 
   theme <- get_and_validate(base, theme, "Theme")
@@ -171,7 +172,7 @@ get_paginated_data <- function(
     message("! Could not retrieve data from UKHSA API: ", conditionMessage(e))
   })
 
-  return(result)
+  result
 }
 
 
@@ -203,8 +204,8 @@ get_paginated_data <- function(
 #'
 #' @return                data.frame containing the query results
 #'
-#' @details               If any input argument is left NULL or invalid, a list of possible values for that parameter is
-#'                        returned.
+#' @details               If any input argument is left NULL or invalid, a list
+#'                        of possible values for that parameter is returned.
 #'
 #' @export
 #'

@@ -32,6 +32,6 @@ get_data(
   geography_type = "Nation",
   geography = "England",
   metric = "COVID-19_cases_casesByDay"
-) |> 
+) |>
   head()
 ```
