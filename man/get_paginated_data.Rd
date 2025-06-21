@@ -47,8 +47,8 @@ Maximum supported size is 365.}
 Generates API query URL and retrieves paginated data.
 }
 \details{
-\if{html}{\out{<div class="sourceCode">}}\preformatted{          If any input argument is left NULL or invalid, a list of possible values for that parameter is
-                   returned.
+\if{html}{\out{<div class="sourceCode">}}\preformatted{          If any input argument is left NULL or invalid, a list
+                   of possible values for that parameter is returned.
 }\if{html}{\out{</div>}}
 }
 \examples{
@@ -60,5 +60,6 @@ get_paginated_data(
   geography = "England",
   metric = "COVID-19_cases_casesByDay",
   page_number = 2
-)
+) |>
+  head()
 }

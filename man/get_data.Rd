@@ -44,8 +44,8 @@ combine them into a \code{data.frame}.
 For further information on the UKHSA dashboard API please visit
 the \href{https://ukhsa-dashboard.data.gov.uk/access-our-data}{API documentation}.
 
-\if{html}{\out{<div class="sourceCode">}}\preformatted{          If any input argument is left NULL or invalid, a list of possible values for that parameter is
-                   returned.
+\if{html}{\out{<div class="sourceCode">}}\preformatted{          If any input argument is left NULL or invalid, a list
+                   of possible values for that parameter is returned.
 }\if{html}{\out{</div>}}
 }
 \examples{
@@ -56,5 +56,6 @@ get_data(
   geography_type = "Nation",
   geography = "England",
   metric = "COVID-19_cases_casesByDay"
-)
+) |>
+  head()
 }
