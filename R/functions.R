@@ -49,7 +49,8 @@
 #'   geography = "England",
 #'   metric = "COVID-19_cases_casesByDay",
 #'   page_number = 2
-#' )
+#' ) |> 
+#' head()
 
 get_paginated_data <- function(
   theme = NULL,
@@ -217,7 +218,8 @@ get_paginated_data <- function(
 #'   geography_type = "Nation",
 #'   geography = "England",
 #'   metric = "COVID-19_cases_casesByDay"
-#' )
+#' ) |> 
+#' head()
 
 get_data <- function(
   theme = NULL,
