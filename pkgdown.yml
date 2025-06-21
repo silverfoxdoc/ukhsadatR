@@ -3,7 +3,7 @@ pkgdown: 2.1.3
 pkgdown_sha: ~
 articles:
   ukhsadatR: ukhsadatR.html
-last_built: 2025-06-21T14:06Z
+last_built: 2025-06-21T14:24Z
 urls:
   reference: https://silverfoxdoc.github.io/ukhsadatR/reference
   article: https://silverfoxdoc.github.io/ukhsadatR/articles
