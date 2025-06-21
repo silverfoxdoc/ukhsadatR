@@ -59,7 +59,7 @@ get_paginated_data(
   geography_type = "Nation",
   geography = "England",
   metric = "COVID-19_cases_casesByDay",
-  page_number = 2
-) |>
-  head()
+  page_number = 2,
+  page_size = 6
+)
 }
