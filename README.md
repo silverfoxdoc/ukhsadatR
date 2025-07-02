@@ -3,6 +3,8 @@
 <!-- badges: start -->
 [![CRAN status](https://www.r-pkg.org/badges/version/ukhsadatR)](https://CRAN.R-project.org/package=ukhsadatR)
 [![R-CMD-check](https://github.com/silverfoxdoc/ukhsadatR/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/silverfoxdoc/ukhsadatR/actions)
+[![CRAN downloads](https://cranlogs.r-pkg.org/badges/grand-total/ukhsadatR)](https://cran.r-project.org/package=ukhsadatR)
+
 <!-- badges: end -->
 
 This is a wrapper for the [UKHSA Data Dashboard](https://ukhsa-dashboard.data.gov.uk/) API, so that data can be easily imported into `R`.
